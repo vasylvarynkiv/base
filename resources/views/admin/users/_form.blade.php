@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group">
                     {{ Form::label('notes', 'Notes') }}
-                    {{ Form::textarea('notes', null, ['class' => 'form-control','rows'=>4]) }}
+                    {{ Form::textarea('notes', null, ['class' => 'form-control', 'rows' => 4]) }}
                 </div>
             </div>
             <!-- /.card-body -->
