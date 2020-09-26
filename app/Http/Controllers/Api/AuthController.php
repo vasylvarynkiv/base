@@ -17,15 +17,33 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
+        $this->guard = "api";
     }
 
     /**
      * @OA\Post(
      *     path="/api/auth/login",
-     *     tags={"user"},
-     *     summary="Create user",
+     *     tags={"Auth"},
+     *     summary="Login user",
      *     description="This can only be done by the logged in user.",
-     *     operationId="createUser",
+     *     operationId="login",
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="The user email for login",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
      *     @OA\Response(
      *         response="default",
      *         description="successful operation"
@@ -36,7 +54,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth($this->guard)->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -44,35 +62,68 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/api/auth/me",
+     *     tags={"Auth"},
+     *     summary="Get user",
+     *     description="Get the authenticated User",
+     *     operationId="me",
+     *     @OA\Response(
+     *         response="default",
+     *         description="successful operation"
+     *     ),
+     *     security={
+     *         {"api_key": {}}
+     *     },
+     * )
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth($this->guard)->user());
     }
 
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/api/auth/logout",
+     *     tags={"Auth"},
+     *     summary="Logout user",
+     *     description="Log the user out (Invalidate the token).",
+     *     operationId="logout",
+     *     @OA\Response(
+     *         response="default",
+     *         description="successful operation"
+     *     ),
+     *     security={
+     *         {"api_key": {}}
+     *     },
+     * )
      */
     public function logout()
     {
-        auth()->logout();
+        auth($this->guard)->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
 
     /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/api/auth/refresh",
+     *     tags={"Auth"},
+     *     summary="Refresh user auth token",
+     *     description="Refresh a token.",
+     *     operationId="refresh",
+     *     @OA\Response(
+     *         response="default",
+     *         description="successful operation"
+     *     ),
+     *     security={
+     *         {"api_key": {}}
+     *     },
+     * )
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(auth($this->guard)->refresh());
     }
 
     /**
@@ -87,7 +138,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth($this->guard)->factory()->getTTL() * 60
         ]);
     }
 }
