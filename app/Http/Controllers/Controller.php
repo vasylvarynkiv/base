@@ -26,5 +26,4 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    //Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MDExMzE3MzcsImV4cCI6MTYwMTEzNTMzNywibmJmIjoxNjAxMTMxNzM3LCJqdGkiOiJsaktjRTFKOVRkMXFWZUdoIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.egeOlQnC-Av4hnOWs5UoKLsJQy_NOAKLpjYivY2LdXM
 }
