@@ -31,6 +31,5 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function (Router 
         $router->get('/', 'DashboardController@index')->name('admin');
 
         $router->resource('users', 'UserController');
-//        $router->get('users', 'UserController@index')->name('user.index');
     });
 });

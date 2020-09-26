@@ -19,9 +19,13 @@ use Illuminate\Routing\Router;
 //    return $request->user();
 //});
 
-Route::group(['middleware' => 'api', 'prefix' => 'auth', 'namespace' => 'Api'], function (Router $router) {
-    $router->post('login', 'AuthController@login');
-    $router->post('logout', 'AuthController@logout');
-    $router->post('refresh', 'AuthController@refresh');
-    $router->post('me', 'AuthController@me');
+Route::group(['middleware' => 'api', 'namespace' => 'Api'], function (Router $router) {
+    $router->group(['prefix' => 'auth'], function (Router $router) {
+        $router->post('login', 'AuthController@login');
+        $router->post('logout', 'AuthController@logout');
+        $router->post('refresh', 'AuthController@refresh');
+        $router->post('me', 'AuthController@me');
+    });
+
+    $router->resource('users', 'UserController');
 });

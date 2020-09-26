@@ -141,6 +141,8 @@ class UserController extends Controller
     {
         User::destroy($id);
 
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+
         return redirect(route('users.index'));
     }
 }
