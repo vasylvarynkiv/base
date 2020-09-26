@@ -11,6 +11,19 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="{{ route('users.index') }}" class="nav-link {{ (Route::currentRouteName() == 'users.index') ? 'active' : null }}">Users</a>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="{{ url('api/documentation') }}" class="nav-link">API Documentation</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item d-none d-sm-inline-block">
+            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+        </li>
     </ul>
 
 </nav>
