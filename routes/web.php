@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes([
+    'register' => false,
+    //    'reset' => false,
+    //    'confirm' => false,
+    //    'verify' => false,
+]);
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function (Router $router) {
+    $router->group(['prefix' => 'admin'], function (Router $router) {
+        $router->get('/', 'DashboardController@index')->name('admin');
+
+        $router->resource('users', 'UserController');
+//        $router->get('users', 'UserController@index')->name('user.index');
+    });
 });
