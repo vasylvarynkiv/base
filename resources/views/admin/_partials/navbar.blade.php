@@ -15,6 +15,7 @@
             <a href="{{ url('api/documentation') }}" class="nav-link">API Documentation</a>
         </li>
     </ul>
+
     <ul class="navbar-nav ml-auto">
         <li class="nav-item d-none d-sm-inline-block">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -25,6 +26,5 @@
             </form>
         </li>
     </ul>
-
 </nav>
 <!-- /.navbar -->
